@@ -851,9 +851,9 @@ Handle<Value> BSON::BSONDeserialize(const Arguments &args) {
   
   // If we passed in a buffer, let's unpack it, otherwise let's unpack the string
   if(Buffer::HasInstance(args[0])) {
-    Buffer *buffer = ObjectWrap::Unwrap<Buffer>(args[0]->ToObject());
-    data = buffer->data();        
-    uint32_t length = buffer->length();
+    Local<Object> buffer_obj = args[0]->ToObject();
+    data = Buffer::Data(buffer_obj);
+    uint32_t length = Buffer::Length(buffer_obj);
     return BSON::deserialize(data, NULL);
   } else {
     // Let's fetch the encoding
